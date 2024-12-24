@@ -11,3 +11,8 @@
     margin: 0 1px;
 }
 
+.button{
+    border-radius: 5%;
+    margin-left: 2px;
+    margin-right: 2px;
+}
