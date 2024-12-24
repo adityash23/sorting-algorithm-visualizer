@@ -1,0 +1,13 @@
+.arrayContainer{
+    position: absolute;
+    left: 80px;
+    top: 10px;
+}
+
+.arrayBar{
+    width: 2.3px;
+    background-color: deepskyblue;
+    display: inline-block;
+    margin: 0 1px;
+}
+
