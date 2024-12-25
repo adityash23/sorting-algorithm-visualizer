@@ -63,12 +63,12 @@ function merge(arrayMain, start, middle, end, arrayAux, animations) {
   let j = middle + 1;
 
   while (i <= middle && j <= end) {
-    animations.push([i, j]); // push values under comparison to change colors
-    animations.push([i, j]); // push values under comparison to get back original color
+    animations.push([i, j]); // push bar indices under comparison to change colors
+    animations.push([i, j]); // push bar indices under comparison to get back original color
 
     if (arrayAux[i] <= arrayAux[j]) {
-      animations.push([k, arrayAux[i]]);
-      arrayMain[k++] = arrayAux[i++];
+      animations.push([k, arrayAux[i]]); // push values under comparison
+      arrayMain[k++] = arrayAux[i++]; // swap bar values
     } else {
       animations.push([k, arrayAux[j]]);
       arrayMain[k++] = arrayAux[j++];
@@ -88,4 +88,34 @@ function merge(arrayMain, start, middle, end, arrayAux, animations) {
     animations.push([k, arrayAux[j]]);
     arrayMain[k++] = arrayAux[j++];
   }
+}
+
+export function bubbleSort(array) {
+  const animations = [];
+  let len = array.length;
+
+  for (let j = len; j >= 2; j--) {
+    for (let i = 1; i < j; i++) {
+      let k = i - 1;
+      animations.push([k, i]); // change color
+      animations.push([k, i]); // color back to normal
+
+      if (array[i] < array[k]) {
+        // MS vs BS - an actual swap of values needs to be done in bubbleSort
+        animations.push([k, array[i]]); // push swap pair1
+        animations.push([i, array[k]]); // push swap pair2
+
+        // actual swap of values
+        let temp = array[i];
+        array[i] = array[k];
+        array[k] = temp;
+      } else {
+        // push dummy values to keep modularity of 4 in both if-else branches
+        animations.push([-1, -1]);
+        animations.push([-1, -1]);
+      }
+    }
+  }
+
+  return animations;
 }

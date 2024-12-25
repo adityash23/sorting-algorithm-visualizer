@@ -2,7 +2,7 @@ import React from "react";
 import './visualizer.css';
 import * as algorithms from "../Algorithms/algorithms.js";
 
-const barsTotal = 250 ; // total number of bars to display
+const barsTotal = 100; // 250 ; // total number of bars to display
 
 export default class SortingVisualizer extends React.Component{
     constructor(props){
@@ -33,7 +33,7 @@ export default class SortingVisualizer extends React.Component{
             const isColorChange = i %3 !== 2;
 
             if (isColorChange){
-                const [bar1, bar2] = animations[i];
+                const [bar1, bar2] = animations[i]; // unwrap the bar indices to be moved
                 const bar1Style = arrayBars[bar1].style;
                 const bar2Style = arrayBars[bar2].style;
                 const color = i % 3 === 0 ? 'red' : 'deepskyblue';
@@ -53,9 +53,41 @@ export default class SortingVisualizer extends React.Component{
         }
     }   
 
-    quickSort() {}
+    quickSort() {
+        /*
+        const qsArray = algorithms.quickSort(this.state.array);
+        const defaultSort = this.state.array.sort((a,b) => a - b);
 
-    bubbleSort() {}
+        console.log(arraysEqual(qsArray, defaultSort));
+        */
+    }
+
+    bubbleSort() {
+        const animations = algorithms.bubbleSort(this.state.array);
+        for (let i = 0; i < animations.length; i++) {
+        const arrayBars = document.getElementsByClassName('arrayBar');
+        const isColorChange = i % 4 < 2;
+    
+        if (isColorChange) {
+            const [bar1, bar2] = animations[i]; // unwrap the bar indices to be moved
+            if (bar1 === -1 || bar2 === -1) continue; // skip dummy
+            const barOneStyle = arrayBars[bar1].style;
+            const barTwoStyle = arrayBars[bar2].style;
+            const color = i % 4 === 0 ? 'red' : 'deepskyblue';
+            setTimeout(() => {
+            barOneStyle.backgroundColor = color;
+            barTwoStyle.backgroundColor = color;
+            }, i * 10);
+        } else {
+            const [barIndex, newHeight] = animations[i];
+            if (barIndex === -1) continue; // skip dummy 
+            const barStyle = arrayBars[barIndex].style;
+            setTimeout(() => {
+            barStyle.height = `${newHeight}px`;
+            }, i * 10);
+        }
+        }
+    }
 
     heapSort() {}
 
